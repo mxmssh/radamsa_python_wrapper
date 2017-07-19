@@ -63,9 +63,9 @@ void *radamsa_realloc(void *ptr, size_t size) {
 
 static char gRadamsaSeed[32] = {'\0'};
 
-extern "C" char * Mutate(char *str) {
+extern "C" int Mutate(char *str, char *out_str) {
 
-  printf("input: %s\n", str);
+  printf("[libradamsa.so] %s\n", str);
   std::string input = str;
   gRadamsa.input = &input;
   gRadamsa.input_index = 0;
@@ -92,14 +92,14 @@ extern "C" char * Mutate(char *str) {
 
   std::string output;
   output.swap(gRadamsa.output);
-  printf("output %s\n", output.c_str());
-  return strdup(output.c_str());
+  if (output.size() > 3000)
+      return -2;
+  memcpy((void *)out_str, (void *)output.c_str(), output.size() + 1);
+  printf("[libradamsa.so] output %s\n", out_str);
+  return 1;
 }
 
 int main() {
-  std::string input = "lol";
-  std::string res = Mutate((char *)"lol");
-  printf("%s", res);
   return 1;
 }
 

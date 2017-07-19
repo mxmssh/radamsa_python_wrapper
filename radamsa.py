@@ -9,6 +9,8 @@ if len(sys.argv) < 2:
 
 test = ctypes.cdll.LoadLibrary("./radamsa.so")
 print test
-test.restype = c_char_p
-result = test.Mutate(sys.argv[1])
-print hex(result)
+res_str = create_string_buffer('\0', 3000)
+result = test.Mutate(sys.argv[1], byref(res_str))
+result_string = cast(res_str, c_char_p).value
+print "Mutate returns %d:" % result
+print "Mutated string %s:" % result_string
