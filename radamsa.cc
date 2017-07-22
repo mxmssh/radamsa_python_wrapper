@@ -97,8 +97,7 @@ extern "C" char * Mutate(char *str) {
 }
 
 int main() {
-  std::string input = "lol";
-  std::string res = Mutate((char *)"lol");
+  char *res = Mutate((char *)"some_unique_string");
   printf("%s", res);
   return 1;
 }
